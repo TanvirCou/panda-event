@@ -54,7 +54,7 @@ const eventSchema = new mongoose.Schema({
         type: String
     },
     category: { type: Schema.Types.ObjectId, ref: 'Category' },
-    organizer: { type: Schema.Types.ObjectId, ref: 'User' },
+    organizer: { type: Schema.Types.ObjectId, ref: 'users' },
 });
 
 export const Event = mongoose.models?.events || mongoose.model("events", eventSchema);
