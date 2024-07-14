@@ -2,6 +2,7 @@ import AllEvent from '@/components/AllEvent/AllEvent';
 import { Button } from '@/components/ui/button';
 import { getEventsByUser } from '@/lib/actions/event';
 import { getOrdersByUser } from '@/lib/actions/order';
+import { IOrder } from '@/lib/models/orderModel';
 import { SearchParamProps } from '@/types';
 import { auth } from '@clerk/nextjs/server';
 import Link from 'next/link';
@@ -15,7 +16,8 @@ const page = async({searchParams}: SearchParamProps) => {
     const eventPages = Number(searchParams?.eventPages) || 1;
 
     const orders = await getOrdersByUser({userId, limit: 3, page: orderPages});
-    console.log(orders);
+
+    const ordersEvents = orders?.data.map((order: IOrder) => order.event);
     
 
     const organizedEvents = await getEventsByUser({userId, limit: 3, page: eventPages});
@@ -31,14 +33,14 @@ const page = async({searchParams}: SearchParamProps) => {
                 </div>
 
                 <AllEvent
-                    data={[]}
+                    data={ordersEvents}
                     emptyTitle="No event tickets purchased yet"
                     emptyStateSubtext="No worries - plenty of exciting events to explore!"
                     collectionType="My_Ticket"
                     limit={3}
                     page={orderPages}
                     urlParamName='ordersPage'
-                    totalPages={2}
+                    totalPages={orders?.totalPages}
                 />
             </div>
 

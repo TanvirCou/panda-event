@@ -13,7 +13,9 @@ const Navbar = () => {
                 <Link href="/" className='text-2xl font-bold font-[Poppins] text-purple-600'>Panda-Event</Link>
 
                 <div className='hidden md:block'>
-                    <NavLink />
+                    <SignedIn>
+                        <NavLink />
+                    </SignedIn>
                 </div>
 
 
@@ -28,7 +30,9 @@ const Navbar = () => {
                     </SignedOut>
 
                     <div className='block md:hidden'>
-                        <MobileBar />
+                        <SignedIn>
+                         <MobileBar />
+                         </SignedIn>
                     </div>
 
                 </div>
