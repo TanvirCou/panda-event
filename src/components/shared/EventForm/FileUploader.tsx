@@ -53,6 +53,7 @@ const FileUploader = ({ onChangeHandler, imageUrl, setFiles }: FileUploaderProps
                         alt="image"
                         width={250}
                         height={250}
+                        priority={true}
                         className="w-full object-cover object-center"
                     />
                 </div>

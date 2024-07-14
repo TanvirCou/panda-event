@@ -28,8 +28,9 @@ import calendarIcon from "../../../../public/assets/icons/calendar.svg";
 import dollarIcon from "../../../../public/assets/icons/dollar.svg";
 import linkIcon from "../../../../public/assets/icons/link.svg";
 import { useUploadThing } from "@/lib/uploadthing"
-import { createEvent } from "@/lib/actions/event"
+import { createEvent, updateEvent } from "@/lib/actions/event"
 import { useRouter } from "next/navigation"
+import { IEvent } from "@/lib/models/eventModel"
 
 
 const formSchema = z.object({
@@ -48,23 +49,26 @@ const formSchema = z.object({
 type EventFormProps = {
     userId: string;
     type: string;
+    event?: IEvent;
+    eventId?: string
 }
 
-const EventForm = ({ userId, type }: EventFormProps) => {
+const EventForm = ({ userId, type, event, eventId }: EventFormProps) => {
     const [files, setFiles] = useState<File[]>([]);
+    
     const form = useForm<z.infer<typeof formSchema>>({
         resolver: zodResolver(formSchema),
         defaultValues: {
-            title: "",
-            description: "",
-            location: "",
-            imageUrl: "",
-            startDateTime: new Date(),
-            endDateTime: new Date(),
-            price: "",
-            isFree: false,
-            url: "",
-            categoryId: "",
+            title: (!!event && type === "Update") ? event.title : "",
+            description: (!!event && type === "Update") ? event?.description : "",
+            location: (!!event && type === "Update") ? event?.location : "",
+            imageUrl: (!!event && type === "Update") ? event?.imageUrl : "",
+            startDateTime: (!!event && type === "Update") ? new Date(event?.startDateTime) : new Date(),
+            endDateTime: (!!event && type === "Update") ? new Date(event?.endDateTime) : new Date(),
+            price: (!!event && type === "Update") ? event?.price : "",
+            isFree: (!!event && type === "Update") ? event?.isFree : false,
+            url: (!!event && type === "Update") ? event?.url : "",
+            categoryId: (!!event && type === "Update") ? event?.category._id : "",
         },
     });
 
@@ -99,12 +103,28 @@ const EventForm = ({ userId, type }: EventFormProps) => {
             category: values.categoryId,
             organizer: userId
         }
-            const res = await createEvent(event);
+            if(type === "Create") {
+                const res = await createEvent(event);
 
-            if(!!res) {
-                form.reset();
-                router.push(`/events/${res._id}`);
+                if(!!res) {
+                    form.reset();
+                    router.push(`/events/${res._id}`);
+                }
+            } 
+            
+            if(type === "Update"){
+                if(!eventId) {
+                    router.back()
+                    return;
+                  }
+                const res = await updateEvent({userId: userId, event: {...event, _id: eventId}, path: `/events/${eventId}`})
+            
+                if(res) {
+                    router.push(`/events/${res._id}`)
+                  }
             }
+
+
 
         } catch (error) {
             console.log(error);

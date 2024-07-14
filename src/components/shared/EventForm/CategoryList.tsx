@@ -1,4 +1,4 @@
-
+"use client"
 import {
     Select,
     SelectContent,
@@ -31,6 +31,9 @@ type CategoryProps = {
 const CategoryList = ({ onChangeHandler, value }: CategoryProps) => {
     const [categories, setCategories] = useState<ICategory[]>([]);
     const [newCategory, setNewCategory] = useState("");
+    console.log(value);
+    
+    
 
     const handleNewCategory = async() => {
         const category = await createCategory(newCategory)
