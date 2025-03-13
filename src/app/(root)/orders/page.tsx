@@ -4,7 +4,7 @@ import { IOrderItem } from "@/lib/models/orderModel"
 import { SearchParamProps } from "@/types"
 import { formatDateTime } from "../events/[id]/page"
 
-export const formatPrice = (price: string) => {
+const formatPrice = (price: string) => {
   const amount = parseFloat(price)
   const formattedPrice = new Intl.NumberFormat('en-US', {
     style: 'currency',
