@@ -32,7 +32,7 @@ const Card = async ({ event, hasOrderLink, hidePrice }: CardProps) => {
                     isEventOrganizer && !hidePrice &&
                     <div className='absolute right-2 top-2'>
                         <div className='bg-gray-100 p-3 rounded-xl'>
-                            <Link href={`events/${event._id}/update-event`} className='bg-red-500 '>
+                            <Link href={`/events/${event._id}/update-event`} className='bg-red-500 '>
                                 <Image src={updateIcon} alt='' width={20} height={20} className='cursor-pointer' />
                             </Link>
                         </div>
@@ -42,7 +42,7 @@ const Card = async ({ event, hasOrderLink, hidePrice }: CardProps) => {
                 }
             </div>
             <div className='flex flex-col px-8 my-2'>
-                <Link href={`events/${event._id}`}>
+                <Link href={`/events/${event._id}`}>
                     <div className='flex items-center gap-x-6'>
                         <p className='px-4 py-1.5 bg-purple-600/5 rounded-full text-lg text-purple-600 italic'>{event.isFree ? "Free" : `$ ${event.price}`}</p>
                         <p className="px-4 py-1.5 bg-gray-600/5 rounded-full">{event.category.name}</p>
