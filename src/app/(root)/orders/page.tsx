@@ -5,17 +5,17 @@ import { SearchParamProps } from "@/types"
 import { formatDateTime } from "../events/[id]/page"
 
 export const formatPrice = (price: string) => {
-    const amount = parseFloat(price)
-    const formattedPrice = new Intl.NumberFormat('en-US', {
-      style: 'currency',
-      currency: 'USD',
-    }).format(amount)
-  
-    return formattedPrice
-  }
+  const amount = parseFloat(price)
+  const formattedPrice = new Intl.NumberFormat('en-US', {
+    style: 'currency',
+    currency: 'USD',
+  }).format(amount)
+
+  return formattedPrice
+}
 
 
-const Orders = async ({ searchParams }: SearchParamProps) => {
+const ordersPage = async ({ searchParams }: SearchParamProps) => {
   const eventId = (searchParams?.eventId as string) || ''
   const searchText = (searchParams?.query as string) || ''
 
@@ -77,4 +77,4 @@ const Orders = async ({ searchParams }: SearchParamProps) => {
   )
 }
 
-export default Orders
+export default ordersPage;
